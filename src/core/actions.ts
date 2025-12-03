@@ -1,10 +1,11 @@
 import { ofType, union } from '@/lib/strict-union';
-import { Direction } from './state';
+import { Direction, Point } from './state';
 
 export const Actions = union('type', 'payload', {
-  ['start-game']: ofType<null>(),
-  ['game-tick']: ofType<null>(),
-  ['change-direction']: ofType<Direction>(),
+  ['player/start-game']: ofType<null>(),
+  ['engine/game-tick']: ofType<null>(),
+  ['player/change-direction']: ofType<Direction>(),
+  ['engine/place-food']: ofType<Point>(),
 } as const);
 
 export type Action = typeof Actions.Union;

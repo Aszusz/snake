@@ -19,20 +19,20 @@ function GameControls() {
     const handleKey = (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
         e.preventDefault();
-        dispatch(Actions.create['start-game'](null));
+        dispatch(Actions.create['player/start-game'](null));
         return;
       }
       const dir = keyToDirection[e.key];
       if (dir) {
         e.preventDefault();
-        dispatch(Actions.create['change-direction'](dir));
+        dispatch(Actions.create['player/change-direction'](dir));
       }
     };
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
   }, [dispatch]);
 
-  const startGame = () => dispatch(Actions.create['start-game'](null));
+  const startGame = () => dispatch(Actions.create['player/start-game'](null));
 
   return (
     <Button size="lg" variant="default" className="font-semibold" onClick={startGame}>

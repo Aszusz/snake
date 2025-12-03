@@ -1,3 +1,4 @@
+import { foodMiddleware } from './middleware/foodMiddleware';
 import { gameMiddleware } from './middleware/gameMiddleware';
 import { loggerMiddleware } from './middleware/loggingMiddleware';
 import { reducer } from '@/core/reducer';
@@ -8,7 +9,7 @@ import { createContext } from 'react';
 export const store = createStore({
   initialState,
   reducers: [reducer],
-  middleware: [gameMiddleware, loggerMiddleware],
+  middleware: [foodMiddleware, gameMiddleware, loggerMiddleware],
 });
 
 export const StoreContext = createContext(store);

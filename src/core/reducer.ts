@@ -17,17 +17,6 @@ function moveHead(head: Point, direction: Direction): Point {
   }
 }
 
-function randomFood(width: number, height: number, snake: Point[]): Point {
-  let food: Point;
-  do {
-    food = {
-      x: Math.floor(Math.random() * width),
-      y: Math.floor(Math.random() * height),
-    };
-  } while (snake.some(p => p.x === food.x && p.y === food.y));
-  return food;
-}
-
 function checkCollision(head: Point, snake: Point[], width: number, height: number): boolean {
   if (head.x < 0 || head.x >= width || head.y < 0 || head.y >= height) return true;
   return snake.slice(1).some(p => p.x === head.x && p.y === head.y);
@@ -35,7 +24,7 @@ function checkCollision(head: Point, snake: Point[], width: number, height: numb
 
 export const reducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
-    case Actions.type['start-game']: {
+    case Actions.type['player/start-game']: {
       return {
         ...state,
         ...initilaizeGameFrame(),
@@ -43,7 +32,7 @@ export const reducer = (state: State = initialState, action: Action): State => {
       };
     }
 
-    case Actions.type['game-tick']: {
+    case Actions.type['engine/game-tick']: {
       if (state.gameOver) return state;
 
       const newHead = moveHead(state.snake[0], state.direction);
@@ -60,12 +49,15 @@ export const reducer = (state: State = initialState, action: Action): State => {
       return {
         ...state,
         snake: newSnake,
-        food: ateFood ? randomFood(state.width, state.height, newSnake) : state.food,
         score: ateFood ? state.score + 1 : state.score,
       };
     }
 
-    case Actions.type['change-direction']: {
+    case Actions.type['engine/place-food']: {
+      return { ...state, food: action.payload };
+    }
+
+    case Actions.type['player/change-direction']: {
       if (state.gameOver) return state;
       if (opposites[action.payload] === state.direction) return state;
       return { ...state, direction: action.payload };
