@@ -4,7 +4,8 @@ import { Middleware } from '@/lib/strict-redux/types';
 
 export const loggerMiddleware: Middleware<State, Action> =
   () => (next) => (action) => {
+    const start = performance.now();
     const result = next(action);
-    console.log('dispatching', action);
+    console.log('dispatching', action, `${(performance.now() - start).toFixed(3)}ms`);
     return result;
   };

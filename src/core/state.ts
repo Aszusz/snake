@@ -22,8 +22,8 @@ export type GameMeta = {
 export type State = GameFrame & GameMeta;
 
 export const initialGameMeta: GameMeta = {
-  width: 10,
-  height: 10,
+  width: 30,
+  height: 30,
   interval: 100,
 }
 
