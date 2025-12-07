@@ -1,11 +1,21 @@
 import { Action } from '@/core/actions';
 import { State } from '@/core/state';
+import { selectInterval } from '@/core/selectors';
 import { Middleware } from '@/lib/strict-redux/types';
 
+let lastTickTime = performance.now();
+let lastTarget: number | null = null;
+
 export const loggerMiddleware: Middleware<State, Action> =
-  () => (next) => (action) => {
-    const start = performance.now();
+  (store) => (next) => (action) => {
     const result = next(action);
-    console.log('dispatching', action, `${(performance.now() - start).toFixed(3)}ms`);
+    if (action.type === 'engine/game-tick') {
+      const now = performance.now();
+      const elapsed = now - lastTickTime;
+      const drift = lastTarget !== null ? elapsed - lastTarget : null;
+      console.log('tick', elapsed.toFixed(3), 'ms', 'target', lastTarget, 'drift', drift?.toFixed(3));
+      lastTickTime = now;
+      lastTarget = selectInterval(store.getState());
+    }
     return result;
   };
