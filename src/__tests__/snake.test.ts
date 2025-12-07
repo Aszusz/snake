@@ -1,7 +1,7 @@
 import { Actions } from '@/core/actions';
 import { reducer } from '@/core/reducer';
-import { selectSnake, selectScore, selectGameOver, selectDirection } from '@/core/selectors';
-import { initialState } from '@/core/state';
+import { selectSnake, selectScore, selectGameState, selectDirection } from '@/core/selectors';
+import { initialState, State } from '@/core/state';
 import { describe, it, expect } from 'vitest';
 
 describe('Snake Game', () => {
@@ -11,38 +11,36 @@ describe('Snake Game', () => {
   });
 
   it('should move snake right on game-tick', () => {
-    let state = initialState;
+    let state = reducer(initialState, Actions.create['player/start-game'](null));
     state = reducer(state, Actions.create['engine/game-tick'](null));
     const snake = selectSnake(state);
     expect(snake[0]).toEqual({ x: 1, y: 0 });
   });
 
   it('should change direction', () => {
-    let state = initialState;
+    let state = reducer(initialState, Actions.create['player/start-game'](null));
     state = reducer(state, Actions.create['player/change-direction']('down'));
     expect(selectDirection(state)).toBe('down');
   });
 
   it('should prevent 180 degree turns', () => {
     // Need 2+ segments for cameFrom to work
-    let state = { ...initialState, snake: [{ x: 1, y: 0 }, { x: 0, y: 0 }] }; // moving right
+    let state: State = { ...initialState, snake: [{ x: 1, y: 0 }, { x: 0, y: 0 }], gameState: 'playing' }; // moving right
     state = reducer(state, Actions.create['player/change-direction']('left'));
     expect(selectDirection(state)).toBe('right');
   });
 
-  it('should set gameOver on wall collision', () => {
-    let state = initialState;
-    state = reducer(state, Actions.create['player/change-direction']('left'));
-    // Snake at 0,0 moving left hits wall
-    // But direction won't change due to 180 rule, so move up
+  it('should set gameState to game-over on wall collision', () => {
+    let state = reducer(initialState, Actions.create['player/start-game'](null));
+    // Snake at 0,0 moving up hits wall
     state = reducer(state, Actions.create['player/change-direction']('up'));
     state = reducer(state, Actions.create['engine/game-tick'](null));
-    expect(selectGameOver(state)).toBe(true);
+    expect(selectGameState(state)).toBe('game-over');
   });
 
   it('should grow snake and increase score when eating food', () => {
     // Create state where snake head will land on food
-    let state = { ...initialState, food: { x: 1, y: 0 } };
+    let state: State = { ...initialState, food: { x: 1, y: 0 }, gameState: 'playing' };
     const initialLength = selectSnake(state).length;
     state = reducer(state, Actions.create['engine/game-tick'](null));
     expect(selectSnake(state).length).toBe(initialLength + 1);
@@ -50,11 +48,11 @@ describe('Snake Game', () => {
   });
 
   it('should reset game on start-game', () => {
-    let state = initialState;
+    let state = reducer(initialState, Actions.create['player/start-game'](null));
     state = reducer(state, Actions.create['engine/game-tick'](null));
     state = reducer(state, Actions.create['player/start-game'](null));
     expect(selectSnake(state)).toEqual([{ x: 0, y: 0 }]);
     expect(selectScore(state)).toBe(0);
-    expect(selectGameOver(state)).toBe(false);
+    expect(selectGameState(state)).toBe('playing');
   });
 });

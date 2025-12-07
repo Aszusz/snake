@@ -1,5 +1,7 @@
 import { Actions } from '@/core/actions';
+import { selectGameState } from '@/core/selectors';
 import { Direction } from '@/core/state';
+import { useSelector } from '@/lib/strict-redux/hooks';
 import { StoreContext } from '@/shell/store';
 import { Button } from '@/view/components/shadcn/button';
 import { useContext, useEffect } from 'react';
@@ -14,6 +16,7 @@ const keyToDirection: Record<string, Direction> = {
 function GameControls() {
   const store = useContext(StoreContext);
   const dispatch = store.dispatch;
+  const gameState = useSelector(store, selectGameState);
 
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
@@ -36,7 +39,7 @@ function GameControls() {
 
   return (
     <Button size="lg" variant="default" className="font-semibold" onClick={startGame}>
-      Start Game
+      {gameState === 'idle' ? 'Start Game' : 'Restart Game'}
     </Button>
   );
 }

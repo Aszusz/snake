@@ -4,6 +4,7 @@ export type Point = {
 };
 
 export type Direction = 'up' | 'down' | 'left' | 'right';
+export type GameState = 'idle' | 'playing' | 'game-over';
 
 export const FOODS_PER_LEVEL = 3;
 export const BASE_INTERVAL = 300;
@@ -14,7 +15,7 @@ export type GameFrame = {
   direction: Direction;
   food: Point;
   score: number;
-  gameOver: boolean;
+  gameState: GameState;
 }
 
 export type GameMeta = {
@@ -35,7 +36,7 @@ export function initilaizeGameFrame(): GameFrame {
     direction: 'right',
     food: { x: 5, y: 5 },
     score: 0,
-    gameOver: false,
+    gameState: 'idle',
   }
 }
 

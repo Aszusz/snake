@@ -31,16 +31,17 @@ export const reducer = (state: State = initialState, action: Action): State => {
       return {
         ...state,
         ...initilaizeGameFrame(),
+        gameState: 'playing',
       };
     }
 
     case Actions.type['engine/game-tick']: {
-      if (state.gameOver) return state;
+      if (state.gameState !== 'playing') return state;
 
       const newHead = moveHead(state.snake[0], state.direction);
 
       if (checkCollision(newHead, state.snake, state.width, state.height)) {
-        return { ...state, gameOver: true };
+        return { ...state, gameState: 'game-over' };
       }
 
       const ateFood = newHead.x === state.food.x && newHead.y === state.food.y;
@@ -60,7 +61,7 @@ export const reducer = (state: State = initialState, action: Action): State => {
     }
 
     case Actions.type['player/change-direction']: {
-      if (state.gameOver) return state;
+      if (state.gameState !== 'playing') return state;
       if (action.payload === cameFrom(state.snake)) return state;
       return { ...state, direction: action.payload };
     }

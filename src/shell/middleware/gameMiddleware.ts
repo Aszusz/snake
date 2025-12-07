@@ -1,6 +1,6 @@
 import { Action, Actions } from '@/core/actions';
 import { State } from '@/core/state';
-import { selectInterval, selectGameOver } from '@/core/selectors';
+import { selectInterval, selectGameState } from '@/core/selectors';
 import { createTimeout } from '@/shell/effects';
 import { Middleware } from '@/lib/strict-redux/types';
 
@@ -11,7 +11,7 @@ export const gameMiddleware: Middleware<State, Action> =
     const result = next(action);
 
     if (Actions.is['player/start-game'](action) || Actions.is['engine/game-tick'](action)) {
-      if (!selectGameOver(store.getState())) {
+      if (selectGameState(store.getState()) === 'playing') {
         cleanup?.();
         cleanup = createTimeout(
           () => store.dispatch(Actions.create['engine/game-tick'](null)),
