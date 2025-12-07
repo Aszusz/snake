@@ -82,6 +82,16 @@ export const reducer = (state: State = initialState, action: Action): State => {
       return { ...state, direction: action.payload };
     }
 
+    case Actions.type['settings/set-dimensions']: {
+      if (state.gameState === 'playing') return state;
+      return {
+        ...state,
+        ...initilaizeGameFrame(),
+        width: action.payload.width,
+        height: action.payload.height,
+      };
+    }
+
     default:
       return state;
   }

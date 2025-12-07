@@ -6,6 +6,7 @@ export const Actions = union('type', 'payload', {
   ['engine/game-tick']: ofType<null>(),
   ['player/change-direction']: ofType<Direction>(),
   ['engine/place-food']: ofType<Point>(),
+  ['settings/set-dimensions']: ofType<{ width: number; height: number }>(),
 } as const);
 
 export type Action = typeof Actions.Union;

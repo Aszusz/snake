@@ -1,5 +1,3 @@
-import { selectScore, selectGameState, selectLevel } from '@/core/selectors';
-import { useSelector } from '@/lib/strict-redux/hooks';
 import { StoreContext } from '@/shell/store';
 import { useContext, useRef, useEffect } from 'react';
 
@@ -8,10 +6,6 @@ const CELL_SIZE = 24;
 function GameBoard() {
   const store = useContext(StoreContext);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
-  const score = useSelector(store, selectScore);
-  const gameState = useSelector(store, selectGameState);
-  const level = useSelector(store, selectLevel);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -68,19 +62,7 @@ function GameBoard() {
     return store.subscribe(draw);
   }, [store]);
 
-  return (
-    <div className="flex flex-col items-center gap-2">
-      <div className="text-xl font-semibold">
-        Level {level} | Score: {score}
-      </div>
-      <canvas ref={canvasRef} className="border border-gray-300" />
-      <div
-        className={`font-bold text-red-600 ${gameState !== 'game-over' ? 'invisible' : ''}`}
-      >
-        Game Over!
-      </div>
-    </div>
-  );
+  return <canvas ref={canvasRef} className="border border-gray-300" />;
 }
 
 export default GameBoard;
