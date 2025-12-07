@@ -1,12 +1,15 @@
 import { Actions, Action } from './actions';
 import { initialState, initilaizeGameFrame, State, Point, Direction } from './state';
 
-const opposites: Record<Direction, Direction> = {
-  up: 'down',
-  down: 'up',
-  left: 'right',
-  right: 'left',
-};
+function cameFrom(snake: Point[]): Direction | null {
+  if (snake.length < 2) return null;
+  const [head, neck] = snake;
+  if (neck.x < head.x) return 'left';
+  if (neck.x > head.x) return 'right';
+  if (neck.y < head.y) return 'up';
+  if (neck.y > head.y) return 'down';
+  return null;
+}
 
 function moveHead(head: Point, direction: Direction): Point {
   switch (direction) {
@@ -59,7 +62,7 @@ export const reducer = (state: State = initialState, action: Action): State => {
 
     case Actions.type['player/change-direction']: {
       if (state.gameOver) return state;
-      if (opposites[action.payload] === state.direction) return state;
+      if (action.payload === cameFrom(state.snake)) return state;
       return { ...state, direction: action.payload };
     }
 

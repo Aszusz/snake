@@ -24,7 +24,8 @@ describe('Snake Game', () => {
   });
 
   it('should prevent 180 degree turns', () => {
-    let state = initialState; // direction: right
+    // Need 2+ segments for cameFrom to work
+    let state = { ...initialState, snake: [{ x: 1, y: 0 }, { x: 0, y: 0 }] }; // moving right
     state = reducer(state, Actions.create['player/change-direction']('left'));
     expect(selectDirection(state)).toBe('right');
   });
