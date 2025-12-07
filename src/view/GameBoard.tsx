@@ -46,11 +46,21 @@ function GameBoard() {
       }
 
       ctx.fillStyle = '#ef4444';
-      ctx.fillRect(food.x * CELL_SIZE, food.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+      ctx.fillRect(
+        food.x * CELL_SIZE,
+        food.y * CELL_SIZE,
+        CELL_SIZE,
+        CELL_SIZE,
+      );
 
       ctx.fillStyle = '#22c55e';
-      snake.forEach(segment => {
-        ctx.fillRect(segment.x * CELL_SIZE, segment.y * CELL_SIZE, CELL_SIZE, CELL_SIZE);
+      snake.forEach((segment) => {
+        ctx.fillRect(
+          segment.x * CELL_SIZE,
+          segment.y * CELL_SIZE,
+          CELL_SIZE,
+          CELL_SIZE,
+        );
       });
     };
 
@@ -60,9 +70,15 @@ function GameBoard() {
 
   return (
     <div className="flex flex-col items-center gap-2">
-      <div className="text-xl font-semibold">Level {level} | Score: {score}</div>
+      <div className="text-xl font-semibold">
+        Level {level} | Score: {score}
+      </div>
       <canvas ref={canvasRef} className="border border-gray-300" />
-      <div className={`text-red-600 font-bold ${gameState !== 'game-over' ? 'invisible' : ''}`}>Game Over!</div>
+      <div
+        className={`font-bold text-red-600 ${gameState !== 'game-over' ? 'invisible' : ''}`}
+      >
+        Game Over!
+      </div>
     </div>
   );
 }

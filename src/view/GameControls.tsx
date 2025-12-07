@@ -38,7 +38,12 @@ function GameControls() {
   const startGame = () => dispatch(Actions.create['player/start-game'](null));
 
   return (
-    <Button size="lg" variant="default" className="font-semibold" onClick={startGame}>
+    <Button
+      size="lg"
+      variant="default"
+      className="font-semibold"
+      onClick={startGame}
+    >
       {gameState === 'idle' ? 'Start Game' : 'Restart Game'}
     </Button>
   );

@@ -16,19 +16,19 @@ export type GameFrame = {
   food: Point;
   score: number;
   gameState: GameState;
-}
+};
 
 export type GameMeta = {
   width: number;
   height: number;
-}
+};
 
 export type State = GameFrame & GameMeta;
 
 export const initialGameMeta: GameMeta = {
   width: 10,
   height: 10,
-}
+};
 
 export function initilaizeGameFrame(): GameFrame {
   return {
@@ -37,10 +37,10 @@ export function initilaizeGameFrame(): GameFrame {
     food: { x: 5, y: 5 },
     score: 0,
     gameState: 'idle',
-  }
+  };
 }
 
 export const initialState: State = {
   ...initialGameMeta,
   ...initilaizeGameFrame(),
-}
+};

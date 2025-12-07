@@ -1,5 +1,11 @@
 import { Actions, Action } from './actions';
-import { initialState, initilaizeGameFrame, State, Point, Direction } from './state';
+import {
+  initialState,
+  initilaizeGameFrame,
+  State,
+  Point,
+  Direction,
+} from './state';
 
 function cameFrom(snake: Point[]): Direction | null {
   if (snake.length < 2) return null;
@@ -13,16 +19,26 @@ function cameFrom(snake: Point[]): Direction | null {
 
 function moveHead(head: Point, direction: Direction): Point {
   switch (direction) {
-    case 'up': return { x: head.x, y: head.y - 1 };
-    case 'down': return { x: head.x, y: head.y + 1 };
-    case 'left': return { x: head.x - 1, y: head.y };
-    case 'right': return { x: head.x + 1, y: head.y };
+    case 'up':
+      return { x: head.x, y: head.y - 1 };
+    case 'down':
+      return { x: head.x, y: head.y + 1 };
+    case 'left':
+      return { x: head.x - 1, y: head.y };
+    case 'right':
+      return { x: head.x + 1, y: head.y };
   }
 }
 
-function checkCollision(head: Point, snake: Point[], width: number, height: number): boolean {
-  if (head.x < 0 || head.x >= width || head.y < 0 || head.y >= height) return true;
-  return snake.slice(1).some(p => p.x === head.x && p.y === head.y);
+function checkCollision(
+  head: Point,
+  snake: Point[],
+  width: number,
+  height: number,
+): boolean {
+  if (head.x < 0 || head.x >= width || head.y < 0 || head.y >= height)
+    return true;
+  return snake.slice(1).some((p) => p.x === head.x && p.y === head.y);
 }
 
 export const reducer = (state: State = initialState, action: Action): State => {

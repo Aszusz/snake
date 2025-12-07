@@ -10,5 +10,7 @@ export const selectHeight = (state: State) => state.height;
 
 // Derived selectors
 export const selectFoodsEaten = (state: State) => state.snake.length - 1;
-export const selectLevel = (state: State) => Math.floor(selectFoodsEaten(state) / FOODS_PER_LEVEL) + 1;
-export const selectInterval = (state: State) => Math.floor(BASE_INTERVAL * SPEED_COEF ** (selectLevel(state) - 1));
+export const selectLevel = (state: State) =>
+  Math.floor(selectFoodsEaten(state) / FOODS_PER_LEVEL) + 1;
+export const selectInterval = (state: State) =>
+  Math.floor(BASE_INTERVAL * SPEED_COEF ** (selectLevel(state) - 1));

@@ -1,5 +1,5 @@
-import { ofType, union } from '@/lib/strict-union';
 import { Direction, Point } from './state';
+import { ofType, union } from '@/lib/strict-union';
 
 export const Actions = union('type', 'payload', {
   ['player/start-game']: ofType<null>(),
