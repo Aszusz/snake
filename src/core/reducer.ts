@@ -31,7 +31,6 @@ export const reducer = (state: State = initialState, action: Action): State => {
       return {
         ...state,
         ...initilaizeGameFrame(),
-        gameOver: false,
       };
     }
 

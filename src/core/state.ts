@@ -5,6 +5,10 @@ export type Point = {
 
 export type Direction = 'up' | 'down' | 'left' | 'right';
 
+export const FOODS_PER_LEVEL = 3;
+export const BASE_INTERVAL = 300;
+export const SPEED_COEF = 0.75;
+
 export type GameFrame = {
   snake: Point[];
   direction: Direction;
@@ -16,15 +20,13 @@ export type GameFrame = {
 export type GameMeta = {
   width: number;
   height: number;
-  interval: number;
 }
 
 export type State = GameFrame & GameMeta;
 
 export const initialGameMeta: GameMeta = {
-  width: 30,
-  height: 30,
-  interval: 100,
+  width: 10,
+  height: 10,
 }
 
 export function initilaizeGameFrame(): GameFrame {
