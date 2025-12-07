@@ -47,8 +47,8 @@ function GameBoard() {
         CELL_SIZE,
       );
 
-      ctx.fillStyle = '#22c55e';
-      snake.forEach((segment) => {
+      snake.forEach((segment, i) => {
+        ctx.fillStyle = i === 0 ? '#16a34a' : '#22c55e';
         ctx.fillRect(
           segment.x * CELL_SIZE,
           segment.y * CELL_SIZE,
