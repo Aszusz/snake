@@ -1,5 +1,5 @@
 import { StoreContext } from '@/shell/store';
-import { useContext, useRef, useEffect } from 'react';
+import { useContext, useEffect, RefObject } from 'react';
 
 const CELL_SIZE = 24;
 
@@ -47,9 +47,10 @@ function drawSnake(
   });
 }
 
-function GameBoard() {
+export function useCanvasDrawing(
+  canvasRef: RefObject<HTMLCanvasElement | null>,
+) {
   const store = useContext(StoreContext);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -75,9 +76,5 @@ function GameBoard() {
 
     draw();
     return store.subscribe(draw);
-  }, [store]);
-
-  return <canvas ref={canvasRef} className="border border-gray-300" />;
+  }, [store, canvasRef]);
 }
-
-export default GameBoard;
