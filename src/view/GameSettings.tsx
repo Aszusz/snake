@@ -1,16 +1,13 @@
 import { Actions } from '@/core/actions';
 import { selectGameState, selectWidth, selectHeight } from '@/core/selectors';
-import { useSelector } from '@/lib/strict-redux/hooks';
-import { StoreContext } from '@/shell/store';
+import { useAppSelector, useAppDispatch } from '@/shell/hooks';
 import { Slider } from '@/view/components/shadcn/slider';
-import { useContext } from 'react';
 
 function GameSettings() {
-  const store = useContext(StoreContext);
-  const dispatch = store.dispatch;
-  const gameState = useSelector(store, selectGameState);
-  const width = useSelector(store, selectWidth);
-  const height = useSelector(store, selectHeight);
+  const dispatch = useAppDispatch();
+  const gameState = useAppSelector(selectGameState);
+  const width = useAppSelector(selectWidth);
+  const height = useAppSelector(selectHeight);
 
   const disabled = gameState === 'playing';
 
